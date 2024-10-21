@@ -2,7 +2,7 @@ name: Deploy React App to Azure Web App
 
 on:
   push:
-    branches: main
+    branches: main-1
 
 jobs:
   build:
@@ -18,22 +18,17 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Change directory to frontend
-        run: cd Multi-tenant/FE
-
       - name: Install dependencies
         run: npm install
-        working-directory: Multi-tenant/FE # Specify the working directory
 
       - name: Build React app
-        run: CI=false npm run build
-        working-directory: Multi-tenant/FE # Specify the working directory
+        run: npm run build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
-          path: Multi-tenant/FE/build # Update path to match build directory
+          path: ./build
 
   deploy:
     name: Deploy React App to Azure Web App
