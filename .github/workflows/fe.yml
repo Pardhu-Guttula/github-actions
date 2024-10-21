@@ -1,0 +1,65 @@
+name: Deploy React App to Azure Web App
+
+on:
+  push:
+    branches: main
+
+jobs:
+  build:
+    name: Build React App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Change directory to frontend
+        run: cd Multi-tenant/FE
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: Multi-tenant/FE # Specify the working directory
+
+      - name: Build React app
+        run: CI=false npm run build
+        working-directory: Multi-tenant/FE # Specify the working directory
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: Multi-tenant/FE/build # Update path to match build directory
+
+  deploy:
+    name: Deploy React App to Azure Web App
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: ./build
+
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: "Deploy to Azure Web App"
+        uses: azure/webapps-deploy@v2
+        with:
+          package: "./build"
+          app-name: "frontend" # Replace with your Azure Web App name
+          slot-name: "production"
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }} # Use the publish profile for deployment
+
