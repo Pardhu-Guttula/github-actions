@@ -53,8 +53,8 @@ const LoginForm = () => {
     try {
       const response = await axios.post(
         // "https://multitenant-be-hvbycbdzexfdedg4.eastus-01.azurewebsites.net/login",
-        // "https://multitenant-be-hvbycbdzexfdedg4.eastus-01.azurewebsites.net/login",
-        "https://multitenant-be-hvbycbdzexfdedg4.eastus-01.azurewebsites.net/login",
+        // "http://localhost:5000/login",
+        "https://backend-multitenant-eggkbfgxfufkftfa.eastus-01.azurewebsites.net/login",
         formData
         // {
         //   headers: {
