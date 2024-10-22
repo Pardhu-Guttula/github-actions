@@ -83,7 +83,7 @@ const LoginForm = () => {
       <Box sx={{ mt: 8, mb: 4 }}>
         <Paper elevation={3} sx={{ p: 4 }}>
           <Typography variant="h4" component="h1" align="center" gutterBottom>
-            Multi-Tenant Login
+            Multi-Tenant Login v.1
           </Typography>
 
           {error && (
