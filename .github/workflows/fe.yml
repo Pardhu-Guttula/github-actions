@@ -17,7 +17,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "20"
-
+          
+      - name: List files in Components
+        run: ls -R ./src/Components    
+        
       - name: Install dependencies
         run: npm install
 
