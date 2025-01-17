@@ -1,10 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import {
-  HomePage,
-  ProfileLayout,
-  ProfileContent,
-  SettingsContent,
-} from "./Components/HomePage";
+import HomePage from "./Components/HomePage.jsx";
+import ProfileLayout from "./Components/ProfilePage.jsx";
+import ProfileContent from "./Components/ProfileContent.jsx";
+import SettingsContent from "./Components/Settings.jsx";
 
 const App = () => {
   return (
