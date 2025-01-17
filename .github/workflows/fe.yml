@@ -56,6 +56,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           package: "./build"
-          app-name: "frontend-1linux" # Replace with your Azure Web App name
+          app-name: "frontend-2linux" # Replace with your Azure Web App name
           slot-name: "production"
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }} # Use the publish profile for deployment
