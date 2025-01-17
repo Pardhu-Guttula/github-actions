@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { Email, Lock, Domain } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { logActivity } from "../utils/logging";
 
 const domains = [
   { value: "brillio", label: "Brillio" },
@@ -52,23 +53,41 @@ const LoginForm = () => {
 
     try {
       const response = await axios.post(
-        "https://multitenant-be-hvbycbdzexfdedg4.eastus-01.azurewebsites.net/login",
+        "http://localhost:5000/login",
         formData
-        // {
-        //   headers: {
-        //     "Content-Type": "application/json", // Ensure the Content-Type header is sent
-        //   },
-        // }
       );
-      // const response = await axios.post(
-      //   "http://localhost:5000/login",
-      //   formData
-      // );
-      console.log("Login successful:", response.data);
+      //     // {
+      //     //   headers: {
+      //     //     "Content-Type": "application/json",
+      //     //   },
+      //     // }
+      //   );
+      //   // const response = await axios.post(
+      //   //   "http://localhost:5000/login",
+      //   //   formData
+      //   // );
+      // try {
+      //   const response = await axios.post(
+      //     "https://be-hpegfmh4aueucjgz.eastus-01.azurewebsites.net/login",
+      //     formData
+      //   );
+
+      // Log successful login
+      await logActivity(formData.email, "User Login", {
+        domain: formData.domain,
+        outcome: "Success",
+      });
+
       setUserData(response.data);
       navigate("/home", { state: { userData: response.data } });
-      // Handle successful login here (e.g., store user data, redirect)
     } catch (err) {
+      // Log failed login attempt
+      await logActivity(formData.email, "Failed Login Attempt", {
+        domain: formData.domain,
+        outcome: "Failed",
+        error: err.response?.data?.error || "Unknown error",
+      });
+
       setError(
         err.response?.data?.error ||
           "An error occurred while logging in. Please try again."
@@ -83,7 +102,7 @@ const LoginForm = () => {
       <Box sx={{ mt: 8, mb: 4 }}>
         <Paper elevation={3} sx={{ p: 4 }}>
           <Typography variant="h4" component="h1" align="center" gutterBottom>
-            Multi-Tenant Login v.1
+            Multi-Tenant Login v1.0
           </Typography>
 
           {error && (

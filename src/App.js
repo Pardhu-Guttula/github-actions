@@ -1,17 +1,23 @@
-import LoginForm from "./Components/loginPage";
-import HomePage from "./Components/homePage";
-import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
-function App() {
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  HomePage,
+  ProfileLayout,
+  ProfileContent,
+  SettingsContent,
+} from "./Components/HomePage";
+
+const App = () => {
   return (
-    <div>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginForm/>}/>
-        <Route path="/home" element={<HomePage/>} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/profile" element={<ProfileLayout />}>
+          <Route index element={<ProfileContent />} />
+          <Route path="settings" element={<SettingsContent />} />
+        </Route>
       </Routes>
     </BrowserRouter>
-    </div>
   );
-}
+};
 
 export default App;
